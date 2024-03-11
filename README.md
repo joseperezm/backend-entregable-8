@@ -2,15 +2,19 @@
 
 ### Aspectos a incluir
 
-- Se deberá contar con un hasheo de contraseña utilizando bcrypt
-- Se deberá contar con una implementación de passport, tanto para register como para login.
-- Implementar el método de autenticación de GitHub a la vista de login.
+- Crear un modelo User el cual contará con los campos:
 
-### Proceso de testing
+○ first_name:String,
+○ last_name:String,
+○ email:String (único)
+○ age:Number,
+○ password:String(Hash)
+○ cart:Id con referencia a Carts ○ role:String(default:’user’)
 
-- Al cargar el proyecto, éste deberá comenzar en la pantalla de login.
-- Al no tener un usuario registrado aún, se procederá a hacer un registro, por lo que la pantalla de login debe tener un link de “regístrate”, el cual nos redireccione a la pantalla de registro. 
-- Al registrarme con los datos solicitados, se revisará la contraseña guardada en la base de datos, cuidando que ésta esté correctamente hasheada.
-- Se realizará el proceso de login con las mismas credenciales con las que se registró el usuario, corroborando que el login funcione correctamente y redirija a la pantalla principal.
-- Además, la pantalla de login deberá contar con un botón “entrar con Github” el cual al hacer click nos permita entrar directamente a la página con los datos obtenidos de Github.
-- Se corroborará en la base de datos que el nuevo usuario “creado con Github” cuente con un password vacío.
+- Desarrollar las estrategias de Passport para que funcionen con este modelo de usuarios.
+
+- Modificar el sistema de login del usuario para poder trabajar con session o con jwt (a tu elección).
+
+- (Sólo para jwt) desarrollar una estrategia “current” para extraer la cookie que contiene el token para obtener el usuario asociado a dicho token, en caso de tener el token, devolver al usuario asociado al token, caso contrario devolver un error de passport, utilizar un extractor de cookie.
+
+- Agregar al router /api/sessions/ la ruta /current, la cual utilizará el modelo de sesión que estés utilizando, para poder devolver en una respuesta el usuario actual.
