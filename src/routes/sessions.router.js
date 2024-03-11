@@ -171,5 +171,25 @@ router.get('/auth/google',
     res.redirect("/products");
 });
 
+router.get('/current', redirectIfNotLoggedIn, (req, res) => {
+    if (req.user) {
+        res.json({
+            success: true,
+            user: {
+                id: req.user.id,
+                first_name: req.user.first_name,
+                last_name: req.user.last_name,
+                email: req.user.email,
+                age: req.user.age,
+                role: req.user.role
+            }
+        });
+    } else {
+        res.status(401).json({
+            success: false,
+            message: 'No hay un usuario logueado.'
+        });
+    }
+});
 
 module.exports = router;
