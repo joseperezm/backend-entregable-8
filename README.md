@@ -1,4 +1,4 @@
-# Refactor a nuestro login
+# Segunda práctica de integración sobre tu ecommerce
 
 ### Aspectos a incluir
 
