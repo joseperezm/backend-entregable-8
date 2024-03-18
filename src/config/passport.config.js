@@ -13,6 +13,23 @@ const initializePassport = () => {
         usernameField: "email"
     }, async (req, username, password, done) => {
         const { first_name, last_name, age } = req.body;
+    
+        if (/\d/.test(first_name) || /\d/.test(last_name)) {
+            return done(null, false, req.flash('error', 'Nombre o Apellido no deben contener números.'));
+        }
+    
+        if (parseInt(age) < 18) {
+            return done(null, false, req.flash('error', 'Debe ser mayor de 18 años para registrarse.'));
+        }
+    
+        if (!password.match(/^(?=.*\d)(?=.*[a-zA-Z]).{8,}$/)) {
+            return done(null, false, req.flash('error', 'La contraseña debe tener al menos 8 caracteres con letras y números.'));
+        }
+    
+        if (!username.match(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)) {
+            return done(null, false, req.flash('error', 'El email ingresado no es válido.'));
+        }
+    
         try {
             let user = await UserModel.findOne({ email: username });
             if (user) {
@@ -31,7 +48,7 @@ const initializePassport = () => {
         } catch (error) {
             return done(null, false, req.flash('error', 'Error al crear el usuario...'));
         }
-    }));
+    }));    
 
     passport.use("login", new LocalStrategy({
         passReqToCallback: true,
